@@ -108,9 +108,18 @@ namespace WindowsFormsApp1
 
             public static explicit operator wDate(String str)
             {
-
-                wDate Data = new wDate(str);
-                return Data;
+                string[] a = str.Split('.');
+                if (a[2].Length == 1)
+                {
+                    a[2] = "200" + a[2];
+                }
+                if (a[2].Length == 2) {
+                    if (Convert.ToInt32(a[2]) > 50) a[2] = "19" + a[2];
+                    else a[2] = "20" + a[2];
+                }
+                string b = a[0] + "."+a[1]+"."  + a[2];
+                wDate res = new wDate(b);
+                return res;
             }
 
         }
@@ -132,7 +141,8 @@ namespace WindowsFormsApp1
             try
             {
                 wDate date2 = (wDate)textBox2.Text;
-                textBox3.Text = "Две даты ";
+                textBox3.Text = "";
+                textBox3.Text += "Две даты ";
                 if (date & date2) textBox3.Text += "равны";
                 else textBox3.Text += "не равны";
             }
@@ -144,8 +154,8 @@ namespace WindowsFormsApp1
             try
             {
                 int index = Convert.ToInt32(textBox4.Text);
-            
-                textBox5.Text = "Дата" + index + "-того по счету дня относительно установленной даты - " + date[index].ToShortDateString();
+                textBox5.Text = "";
+                textBox5.Text += "Дата" + index + "-того по счету дня относительно установленной даты - " + date[index].ToShortDateString();
             }
             catch { MessageBox.Show("Некорректный ввод данных!!!"); }
             
@@ -155,7 +165,8 @@ namespace WindowsFormsApp1
         {
             try
             {
-                textBox6.Text = "Дата предыдущего дня: " + date.priviousDay() + Environment.NewLine;
+                textBox6.Text = "";
+                textBox6.Text += "Дата предыдущего дня: " + date.priviousDay() + Environment.NewLine;
 
                 textBox6.Text += "Дата следующего дня: " + date.nextDay() + Environment.NewLine;
                 textBox6.Text += "Количество дней до конца месяца: " + date.remainDays() + Environment.NewLine;
@@ -170,6 +181,26 @@ namespace WindowsFormsApp1
             }
             catch { MessageBox.Show("Вы не сохранили дату"); }
         
+        }
+
+        private void button5_Click(object sender, EventArgs e)
+        {
+            textBox8.Text = "";
+            string a = textBox7.Text;
+            wDate b = new wDate(a);
+            textBox8.Text += "Преобразование в строку: ";
+            textBox8.Text += (string)b+Environment.NewLine;
+          
+
+
+        }
+
+        private void button6_Click(object sender, EventArgs e)
+        {
+            wDate c = (wDate)textBox9.Text;
+            textBox10.Text = "";
+            textBox10.Text += "Преобразование в wDate: ";
+            textBox10.Text += c.Data.ToShortDateString();
         }
     }
 }
