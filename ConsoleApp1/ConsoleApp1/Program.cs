@@ -100,9 +100,20 @@ namespace ConsoleApp1
 
             public static explicit operator wDate(String str)
             {
-                
-                wDate Data = new wDate(str);
-                return Data;
+
+                string[] a = str.Split('.');
+                if (a[2].Length == 1)
+                {
+                    a[2] = "200" + a[2];
+                }
+                if (a[2].Length == 2)
+                {
+                    if (Convert.ToInt32(a[2]) > 50) a[2] = "19" + a[2];
+                    else a[2] = "20" + a[2];
+                }
+                string b = a[0] + "." + a[1] + "." + a[2];
+                wDate res = new wDate(b);
+                return res;
             }
 
         }
@@ -147,6 +158,9 @@ namespace ConsoleApp1
                 if (date & date2) Console.WriteLine("равны");
                 else Console.WriteLine("не равны");
                 Console.WriteLine("Преобразовать в строку: "+(string)date);
+                Console.Write("Введите дату в формате строки: ");
+                wDate a = (wDate)Console.ReadLine();
+                Console.WriteLine("Преобразовать в wDate: " + a.Data.ToShortDateString());
             }
             catch
             {
